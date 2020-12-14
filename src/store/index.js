@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Axios from 'axios';
 
 Vue.use(Vuex);
 
@@ -18,10 +19,9 @@ export default new Vuex.Store({
 	},
 	actions: {
 		async init({commit}) {
-			const response = await fetch('https://raw.githubusercontent.com/FrolovArkadiy/task_for_middle/master/entities.json');
-			if (response.ok) {
-				const json = await response.json();
-				commit('setEntitles', json.response);
+			const response = await Axios.get('https://raw.githubusercontent.com/FrolovArkadiy/task_for_middle/master/entities.json');
+			if (response.data) {
+				commit('setEntitles', response.data.response);
 			} else {
 				alert("Ошибка HTTP: " + response.status);
 			}
